@@ -45,6 +45,12 @@ first time it comes up.
      relevant to what we're doing, not as an abstract lecture — and call out
      explicitly when something we're doing is a shortcut/simplification a
      real team wouldn't take, so I know it's there.
+  Keep it concept-level: why something exists, what problem it solves, what
+  breaks without it, what blind spot it closes. Do NOT narrate mechanics or
+  implementation details (e.g. don't explain command-line workarounds, don't
+  restate "I ran X and it did Y" when the tool call already shows that).
+  Pick the 1-2 highest-value teaching moments per chunk of work, not
+  everything possible — brief and selective beats exhaustive.
 - Keep steps small. Confirm things are working before moving to the next step.
 - When introducing a new tool/concept (e.g. testing, APIs, databases), briefly
   explain what problem it solves before using it.
@@ -77,6 +83,11 @@ deployment/CI-CD. Full roadmap logic lives in this repo as we build it.
     request 3 extra cards when the current hand has no valid set — not
     implemented yet.
   - Phase 1 is now functionally playable end-to-end via `python3 main.py`.
+  - Testing: `venv/` (virtual environment, gitignored) + `requirements.txt`
+    (pinned deps: pytest and its transitive dependencies) + `tests/`
+    (test_cards.py, test_game.py — 8 tests, all passing) + `conftest.py` at
+    repo root (empty; makes top-level modules importable from tests/). Run
+    with `venv/bin/pytest -v` (or `source venv/bin/activate && pytest -v`).
   - Next: not yet decided — could be Phase 1 polish (e.g. the "no sets,
     deal 3 more" rule above, or a hint/reveal command), or moving into
     Phase 2 (frontend/backend) per the roadmap in Project goal.
