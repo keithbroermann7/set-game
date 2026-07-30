@@ -37,9 +37,15 @@ deployment/CI-CD. Full roadmap logic lives in this repo as we build it.
 - Phase 0 (Git/GitHub/VS Code setup): done
 - Phase 1 (game logic in Python): in progress
   - `cards.py`: Card class + generate_deck() — done, committed
-  - Next: write `is_valid_set(card1, card2, card3)` — checks that for each of
-    the 4 attributes (number, color, shape, shading), the three cards are
-    either all the same or all different.
+  - `game.py`: is_valid_set(card1, card2, card3) — done, committed. Checks
+    that for each of the 4 attributes (number, color, shape, shading), the
+    three cards are either all the same or all different.
+  - `game.py`: find_sets(cards) — done, committed. Given a hand of dealt
+    cards, uses itertools.combinations to check every group of 3 against
+    is_valid_set() and returns the valid ones.
+  - Next: not yet decided — options include dealing/shuffling logic (deal 12
+    cards from a shuffled deck, the realistic entry point for actually
+    playing), or a simple CLI loop to play-test the game end-to-end.
 
 ## Tech decisions so far
 - Language: Python
