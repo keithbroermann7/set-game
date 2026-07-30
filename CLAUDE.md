@@ -11,6 +11,16 @@ proficient hand-coder. Assume no prior coding background — explain jargon the
 first time it comes up.
 
 ## How I want to work
+- STANDING PRIORITY, crystal clear, applies for the whole life of this
+  project: as we keep building, keep teaching me the fundamental concepts of
+  technology/software/the stack more broadly — not a fixed list (server,
+  HTTP, and data center are just examples of the kind of thing, not the
+  whole scope), but whatever foundational concept is actually relevant to
+  whatever part of the roadmap we're working on at the time. Always tie each
+  one back to *why the tech stack is structured the way it is today* (what
+  problem it solved, what came before it, why it won out). This isn't a
+  phase-one-only thing; it should continue at every step, including deep
+  dives (see below), for as long as we're building this.
 - I care more about the higher-level workflows, tools, and concepts (git/
   GitHub, testing, APIs, databases, deployment/CI-CD, etc.) than about writing
   code syntax myself — the kind of thing that's easily replaced by tools like
@@ -51,6 +61,16 @@ first time it comes up.
   restate "I ran X and it did Y" when the tool call already shows that).
   Pick the 1-2 highest-value teaching moments per chunk of work, not
   everything possible — brief and selective beats exhaustive.
+  When a genuinely significant concept comes up (e.g. HTTP, databases,
+  containers), give the short version, then explicitly ask if I want to go
+  deeper (history, why it was invented, why it matters today) — I enjoy that
+  context a lot and want deep dives available throughout, not just early on.
+  Don't dump it unprompted, but don't assume I don't want it either — just
+  ask. Log completed deep dives in "Concepts covered" below so future
+  sessions build on them rather than re-explaining from zero — but I don't
+  mind overlap/repetition when it comes up again, since repetition helps me
+  actually learn it. Feel free to reference or briefly recap a past deep
+  dive when a new topic connects to it.
 - Keep steps small. Confirm things are working before moving to the next step.
 - When introducing a new tool/concept (e.g. testing, APIs, databases), briefly
   explain what problem it solves before using it.
@@ -91,6 +111,29 @@ deployment/CI-CD. Full roadmap logic lives in this repo as we build it.
   - Next: not yet decided — could be Phase 1 polish (e.g. the "no sets,
     deal 3 more" rule above, or a hint/reveal command), or moving into
     Phase 2 (frontend/backend) per the roadmap in Project goal.
+
+## Concepts covered (deep dives)
+Running log so future sessions build on these instead of re-explaining from
+scratch. Repetition/overlap on request is welcome, not a problem.
+- Git basics: commit vs. push, local vs. remote (GitHub), working tree states.
+- Testing: mocking/test doubles, deterministic seeds, pytest conventions
+  (test discovery, assert, parametrize), why automated test suites beat
+  one-off manual checks, CI (what it is, why it exists).
+- Python packaging: virtual environments (what problem they solve),
+  requirements.txt and dependency pinning, stdlib vs. third-party packages,
+  .gitignore and regenerable artifacts (__pycache__, .pytest_cache, venv/).
+- State & mutation: mutating in place vs. returning a new value, what
+  "state" means.
+- HTTP: what it is, full history (Tim Berners-Lee/CERN 1989-91, HTTP 0.9
+  through HTTP/3), why it's stateless and what that trade-off bought, status
+  codes/methods at a glance.
+- Client-server model: mainframes/dumb terminals -> PCs -> client-server
+  split; sessions/cookies as the fix for statelessness.
+- Servers, data centers, and cloud computing: what a "server" means (role
+  vs. machine), physical data centers, cloud providers renting virtual
+  machines, what "serverless" is.
+- DNS: how a domain name resolves to an IP address, registrars/ICANN.
+- APIs as a contract between frontend and backend; CLI vs. GUI vs. API.
 
 ## Tech decisions so far
 - Language: Python
