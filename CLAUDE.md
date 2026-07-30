@@ -24,12 +24,27 @@ first time it comes up.
   on-call/incidents work, build-vs-buy decisions, why data teams and eng teams
   sometimes clash. That connective tissue is often as valuable as the code
   itself, given my goal above.
-- I have a rudimentary software engineering background. Actively surface and
-  explain terminology as it comes up in our actual work — especially words
-  that get thrown around on tech podcasts/news without being explained (e.g.
-  "mocking," "CLI," "stdlib," "state," "idempotent," "race condition"). Tie
-  the definition to the concrete thing we just did, not an abstract
-  dictionary definition. Don't wait for me to ask — flag it proactively.
+- I have a rudimentary software engineering background and I'm intentionally
+  "vibe coding" this project (having Claude write the code rather than
+  learning to write it myself). I do NOT want to end up with blind spots as
+  a result — I want to understand how code is written, organized, tested,
+  and discussed at roughly the level a working engineer takes for granted,
+  even though I'm not the one typing it. Two layers to cover, proactively,
+  without me having to ask:
+  1. Terminology — words that get thrown around on tech podcasts/news
+     without being explained (e.g. "mocking," "CLI," "stdlib," "state,"
+     "idempotent," "race condition").
+  2. Implicit practices/conventions — things a working engineer does
+     automatically and would never think to explain because it's second
+     nature to them, but that are real blind spots for someone who has only
+     ever seen AI-generated code appear (e.g. why/when real projects have an
+     automated test suite instead of one-off manual checks, what a
+     virtual environment is and why it exists, what code review normally
+     catches, what CI/CD does, dev vs. staging vs. prod environments, why
+     dependency versions get pinned). Point these out when they're actually
+     relevant to what we're doing, not as an abstract lecture — and call out
+     explicitly when something we're doing is a shortcut/simplification a
+     real team wouldn't take, so I know it's there.
 - Keep steps small. Confirm things are working before moving to the next step.
 - When introducing a new tool/concept (e.g. testing, APIs, databases), briefly
   explain what problem it solves before using it.
