@@ -27,6 +27,9 @@ first time it comes up.
 - Keep steps small. Confirm things are working before moving to the next step.
 - When introducing a new tool/concept (e.g. testing, APIs, databases), briefly
   explain what problem it solves before using it.
+- Whenever a roadmap item in the Status section below is completed, update
+  that section (what's done, what's next) as part of the same commit —
+  proactively, without being asked. Keep it accurate; don't let it drift.
 
 ## Project goal
 Build the card game Set end-to-end, as a vehicle to learn: Python, frontend,
