@@ -18,3 +18,9 @@ def find_sets(cards):
         if is_valid_set(card1, card2, card3):
             valid_sets.append((card1, card2, card3))
     return valid_sets
+
+
+def deal_hand(deck, count=12):
+    hand = deck[:count]
+    del deck[:count]
+    return hand

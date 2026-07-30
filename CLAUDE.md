@@ -24,6 +24,12 @@ first time it comes up.
   on-call/incidents work, build-vs-buy decisions, why data teams and eng teams
   sometimes clash. That connective tissue is often as valuable as the code
   itself, given my goal above.
+- I have a rudimentary software engineering background. Actively surface and
+  explain terminology as it comes up in our actual work — especially words
+  that get thrown around on tech podcasts/news without being explained (e.g.
+  "mocking," "CLI," "stdlib," "state," "idempotent," "race condition"). Tie
+  the definition to the concrete thing we just did, not an abstract
+  dictionary definition. Don't wait for me to ask — flag it proactively.
 - Keep steps small. Confirm things are working before moving to the next step.
 - When introducing a new tool/concept (e.g. testing, APIs, databases), briefly
   explain what problem it solves before using it.
@@ -46,9 +52,19 @@ deployment/CI-CD. Full roadmap logic lives in this repo as we build it.
   - `game.py`: find_sets(cards) — done, committed. Given a hand of dealt
     cards, uses itertools.combinations to check every group of 3 against
     is_valid_set() and returns the valid ones.
-  - Next: not yet decided — options include dealing/shuffling logic (deal 12
-    cards from a shuffled deck, the realistic entry point for actually
-    playing), or a simple CLI loop to play-test the game end-to-end.
+  - `cards.py`: shuffle_deck(deck) — done. Thin wrapper on random.shuffle().
+  - `game.py`: deal_hand(deck, count=12) — done. Removes and returns `count`
+    cards from the front of the deck (mutates the deck in place).
+  - `main.py`: CLI entry point — done. play() deals 12 cards, loops letting
+    the player guess 3 card numbers, checks with is_valid_set(), replaces
+    correct guesses with fresh cards from the deck, ends when the deck is
+    empty and no sets remain. Known simplification: real Set lets you
+    request 3 extra cards when the current hand has no valid set — not
+    implemented yet.
+  - Phase 1 is now functionally playable end-to-end via `python3 main.py`.
+  - Next: not yet decided — could be Phase 1 polish (e.g. the "no sets,
+    deal 3 more" rule above, or a hint/reveal command), or moving into
+    Phase 2 (frontend/backend) per the roadmap in Project goal.
 
 ## Tech decisions so far
 - Language: Python

@@ -1,3 +1,6 @@
+import random
+
+
 class Card:
     def __init__(self, number, color, shape, shading):
         self.number = number
@@ -22,6 +25,10 @@ def generate_deck():
                 for shading in shadings:
                     deck.append(Card(number, color, shape, shading))
     return deck
+
+
+def shuffle_deck(deck):
+    random.shuffle(deck)
 
 
 if __name__ == "__main__":
