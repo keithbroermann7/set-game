@@ -146,9 +146,25 @@ deployment/CI-CD. Full roadmap logic lives in this repo as we build it.
     keyboard- or screen-reader-accessible.
   - To run locally: `venv/bin/python3 server.py`, then visit
     http://127.0.0.1:5000/
+  - "No sets on the board" button — done. POST /api/claim-no-set: if the
+    board truly has no valid set, clears + refills the front row (first 3
+    cards, board is a 3-per-row x 4-row grid so this matches a real deal
+    batch) and reports it; if a set does exist, no state change, just
+    reports how many sets are actually there. No penalty for a wrong claim.
+  - `tests/test_server.py`: added, using Flask's test client (in-process,
+    no real server needed) — covers new-game, guessing (including that a
+    correct guess replaces only the guessed positions, see below), claiming
+    no-set when a set exists, and claiming no-set correctly (verified
+    against a real 12-card no-set hand found by brute-force search). 12
+    tests total, all passing.
+  - Fixed: a correct guess used to remove matched cards by identity and
+    append replacements at the end, which silently reshuffled every other
+    card's position. Now replaces in place at the exact guessed indices
+    (and shrinks the hand instead of leaving stale cards if the deck runs
+    out mid-guess) — matches "No sets" front-row replacement's approach.
   - Next: not yet decided — could be Phase 2 polish (accessibility fix
-    above, the "no sets, deal 3 more" rule, visual polish), or moving into
-    later roadmap phases (database, deployment/CI-CD).
+    above, visual polish), or moving into later roadmap phases (database,
+    deployment/CI-CD).
 
 ## Concepts covered (deep dives)
 Running log so future sessions build on these instead of re-explaining from

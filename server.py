@@ -47,14 +47,44 @@ def guess():
     valid = is_valid_set(*chosen)
 
     if valid:
-        for card in chosen:
-            hand.remove(card)
-        hand.extend(deal_hand(deck, 3))
+        sorted_indices = sorted(indices)
+        new_cards = deal_hand(deck, len(sorted_indices))
+        for idx, new_card in zip(sorted_indices, new_cards):
+            hand[idx] = new_card
+        # deck ran out before filling every guessed slot: drop the leftovers
+        # (hand shrinks, matching real Set's endgame instead of leaving stale cards)
+        for idx in reversed(sorted_indices[len(new_cards):]):
+            del hand[idx]
 
     game_over = not find_sets(hand) and not deck
 
     return jsonify({
         "valid": valid,
+        "hand": [card.to_dict() for card in hand],
+        "game_over": game_over,
+        "cards_left_in_deck": len(deck),
+    })
+
+
+@app.route("/api/claim-no-set", methods=["POST"])
+def claim_no_set():
+    game_id = session.get("game_id")
+    game = games.get(game_id)
+    if game is None:
+        return jsonify({"error": "no active game"}), 400
+
+    hand = game["hand"]
+    deck = game["deck"]
+    sets = find_sets(hand)
+
+    if sets:
+        return jsonify({"correct_claim": False, "num_sets": len(sets)})
+
+    hand[:3] = deal_hand(deck, 3)
+    game_over = not find_sets(hand) and not deck
+
+    return jsonify({
+        "correct_claim": True,
         "hand": [card.to_dict() for card in hand],
         "game_over": game_over,
         "cards_left_in_deck": len(deck),

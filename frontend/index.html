@@ -6,13 +6,19 @@
 <style>
   body { font-family: sans-serif; background: #f5f5f5; text-align: center; padding: 20px; }
   #message { min-height: 24px; font-weight: bold; margin: 10px; }
-  #hand { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; max-width: 700px; margin: 0 auto; }
+  #hand { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 560px; margin: 0 auto; }
   .card {
     background: white; border: 2px solid #ccc; border-radius: 8px; padding: 14px 6px;
     cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px;
   }
   .card.selected { border-color: #333; box-shadow: 0 0 0 2px #333; }
   button { margin-top: 16px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
+  #popup {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    background: #333; color: white; padding: 10px 18px; border-radius: 6px;
+    font-weight: bold; opacity: 0; visibility: hidden; transition: opacity 0.2s;
+  }
+  #popup.show { opacity: 1; visibility: visible; }
 </style>
 </head>
 <body>
@@ -20,6 +26,8 @@
 <div id="message">Click 3 cards that form a valid set.</div>
 <div id="hand"></div>
 <button id="new-game-btn">New Game</button>
+<button id="no-set-btn">No sets on the board</button>
+<div id="popup"></div>
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
@@ -78,6 +86,16 @@ function setMessage(text) {
   document.getElementById("message").textContent = text;
 }
 
+let popupTimer = null;
+
+function showPopup(text) {
+  const popup = document.getElementById("popup");
+  popup.textContent = text;
+  popup.classList.add("show");
+  clearTimeout(popupTimer);
+  popupTimer = setTimeout(() => popup.classList.remove("show"), 2000);
+}
+
 function toggleCard(i) {
   if (selected.includes(i)) {
     selected = selected.filter((x) => x !== i);
@@ -113,6 +131,25 @@ async function submitGuess() {
   }
 }
 
+async function claimNoSet() {
+  const res = await fetch("/api/claim-no-set", { method: "POST" });
+  const data = await res.json();
+  selected = [];
+
+  if (data.correct_claim) {
+    setMessage("Correct — no sets were there. Front row cleared and refilled.");
+    hand = data.hand;
+    renderHand();
+    if (data.game_over) {
+      setMessage("No sets left and the deck is empty. Game over!");
+    }
+  } else if (data.num_sets === 1) {
+    showPopup("There is one set on the board.");
+  } else {
+    showPopup(`There are ${data.num_sets} sets on the board.`);
+  }
+}
+
 async function newGame() {
   const res = await fetch("/api/new-game", { method: "POST" });
   const data = await res.json();
@@ -123,6 +160,7 @@ async function newGame() {
 }
 
 document.getElementById("new-game-btn").addEventListener("click", newGame);
+document.getElementById("no-set-btn").addEventListener("click", claimNoSet);
 newGame();
 </script>
 </body>
