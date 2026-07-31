@@ -106,13 +106,14 @@ Crucial skill to build, separate from — but related to — the Set project:
 not becoming a software engineer, but becoming someone who, when a
 repetitive task shows up, thinks "I could script this" and can actually get
 it done. Three parts:
-- **Real annoyances outside this repo are the best practice ground** —
-  specifically, recurring tasks from my finance day job (a copy-paste
-  report, a weekly email with the same structure, files renamed by hand).
-  If I bring one of these to a session, even one totally unrelated to
-  set-game, treat it as squarely on-goal: help me automate it with a small
-  script, and explain *why* it's structured the way it is as we go — don't
-  wave it off as out of scope just because it's not this project.
+- **Real recurring annoyances (if I bring one) are great practice ground,
+  but not required** — a genuine finance-day-job task (a copy-paste report,
+  a weekly email with the same structure, files renamed by hand) is fair
+  game and squarely on-goal even if totally unrelated to set-game, no need
+  to wave it off as out of scope. Equally valid: a made-up/simulated
+  scenario invented purely for teaching value, if that's the more effective
+  way to practice a given concept at the time. Pick whichever teaches best
+  in the moment — real isn't required, just welcome when it comes up.
 - **Learn one no-code tool well** — Zapier or Make (formerly Integromat),
   the standard trigger -> action tools non-engineers actually use daily at
   startups. Worth walking through conceptually (and hands-on, if the
