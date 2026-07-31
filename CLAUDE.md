@@ -10,6 +10,24 @@ understanding the whole shape of the operation. I'm not trying to become a
 proficient hand-coder. Assume no prior coding background — explain jargon the
 first time it comes up.
 
+Concretely, I'm evaluating roles like "Deployment Strategist" / "AI
+Strategist" — customer- and business-facing roles embedded with enterprise
+clients, bridging what customers need with what product/engineering teams
+build, requiring product fluency (no coding) but real comfort with AI
+concepts and the modern agentic AI stack. Given that, weight these a bit
+higher when relevant, beyond generic full-stack breadth:
+- Evals, model validation, and model behavior — distinct from the
+  deterministic software testing we've done (pytest checks "is this
+  correct?"; evals are about judging AI output where there's often no single
+  right answer). Worth covering as its own topic, not folded into testing.
+- The agentic AI tooling landscape (Claude Code, Cowork, Cursor, Lovable,
+  Zapier/n8n, etc.) — note explicitly when something we're doing (like
+  directing Claude Code to build this project) is itself real experience
+  with this category of tool, and stay ready to explain how adjacent tools
+  in that landscape relate/compare, even ones we're not using directly here.
+- Enterprise deployment / B2B SaaS concepts, when we reach the deployment
+  phase of the roadmap — treat that phase as high-value, not a formality.
+
 ## How I want to work
 - STANDING PRIORITY, crystal clear, applies for the whole life of this
   project: as we keep building, keep teaching me the fundamental concepts of
