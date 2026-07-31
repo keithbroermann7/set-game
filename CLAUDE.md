@@ -162,9 +162,26 @@ deployment/CI-CD. Full roadmap logic lives in this repo as we build it.
     card's position. Now replaces in place at the exact guessed indices
     (and shrinks the hand instead of leaving stale cards if the deck runs
     out mid-guess) — matches "No sets" front-row replacement's approach.
-  - Next: not yet decided — could be Phase 2 polish (accessibility fix
-    above, visual polish), or moving into later roadmap phases (database,
-    deployment/CI-CD).
+  - Phase 2 functionally complete (polish items like the accessibility fix
+    remain open but aren't blocking).
+- Phase 3 (deployment): in progress
+  - Code prep done: added `gunicorn` (production WSGI server — Flask's own
+    dev server explicitly warns it's not for production use) to
+    requirements.txt; `secret_key` now reads from a `SECRET_KEY` environment
+    variable (falls back to a random one for local dev) so restarts in
+    production won't invalidate active sessions; confirmed the real
+    production start command (`gunicorn server:app`) works locally serving
+    both the API and the frontend correctly.
+  - Provider chosen: Render (render.com) — free tier, deploys straight from
+    the GitHub repo, auto-redeploys on every push. Build command:
+    `pip install -r requirements.txt`. Start command: `gunicorn server:app`.
+  - Next: create a Render account and connect this GitHub repo (must be
+    done by Keith in the browser — account creation isn't something Claude
+    can do on his behalf), then walk through the actual deploy. Known
+    consequence worth expecting once live: the free tier spins the service
+    down after inactivity, so the in-memory `games` dict will lose all
+    in-progress games on that cold start — a live, concrete case of the
+    RAM-vs-database limitation already discussed, not a bug.
 
 ## Concepts covered (deep dives)
 Running log so future sessions build on these instead of re-explaining from
@@ -188,7 +205,28 @@ scratch. Repetition/overlap on request is welcome, not a problem.
   machines, what "serverless" is.
 - DNS: how a domain name resolves to an IP address, registrars/ICANN.
 - APIs as a contract between frontend and backend; CLI vs. GUI vs. API.
+- The internet as a decentralized network of networks: no central
+  "mainframe," ARPANET's origin as a no-single-point-of-failure design,
+  ICANN/IETF as narrow coordinating bodies (not traffic-carrying).
+  Decentralized fabric vs. centralized destinations (a specific website
+  still lives on one company's servers).
+- What makes a server "online": reachability (public IP, open network
+  path, actively listening on a port) vs. raw compute power — two
+  unrelated things. Home networks/NAT and why they block unsolicited
+  inbound traffic by default; ports as "which program on this machine."
+  A server passively listens rather than actively searching for requests.
+- Physical internet infrastructure: undersea fiber-optic cables carrying
+  most international traffic, data center/traffic scale, and abstraction
+  as the unifying idea that hides all of this beneath simple interfaces.
+- Production deployment: dev server vs. WSGI server (Gunicorn), why
+  Flask's built-in server explicitly warns against production use;
+  environment variables as the standard way to configure secrets outside
+  source code.
 
 ## Tech decisions so far
 - Language: Python
-- No frontend/backend/DB built yet — those come in later phases.
+- Backend: Flask (server.py) + Gunicorn for production
+- Frontend: single-file static HTML/CSS/JS (frontend/index.html), no
+  build step, no framework
+- Hosting: Render (free tier), auto-deploy from GitHub on push
+- No database yet — game state is in-memory, a known limitation

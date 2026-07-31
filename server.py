@@ -1,3 +1,4 @@
+import os
 import secrets
 
 from flask import Flask, jsonify, request, session
@@ -6,7 +7,10 @@ from cards import generate_deck, shuffle_deck
 from game import deal_hand, find_sets, is_valid_set
 
 app = Flask(__name__, static_folder="frontend", static_url_path="")
-app.secret_key = secrets.token_hex(16)
+# In production, set the SECRET_KEY environment variable to a fixed value so
+# restarts don't invalidate every active session. Falls back to a random key
+# for local development, where that doesn't matter.
+app.secret_key = os.environ.get("SECRET_KEY", secrets.token_hex(16))
 
 games = {}
 
@@ -92,4 +96,8 @@ def claim_no_set():
 
 
 if __name__ == "__main__":
+    # Only runs for local development (`python3 server.py`). In production,
+    # Gunicorn imports `app` directly and never executes this block, so
+    # debug mode (which leaks stack traces - a real security risk) never
+    # runs there.
     app.run(debug=True)
