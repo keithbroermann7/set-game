@@ -101,6 +101,30 @@ Build the card game Set end-to-end, as a vehicle to learn: Python, frontend,
 backend/APIs, databases, analytics/event tracking, data warehousing, and
 deployment/CI-CD. Full roadmap logic lives in this repo as we build it.
 
+## Automation & lightweight tooling (standing learning goal)
+Crucial skill to build, separate from — but related to — the Set project:
+not becoming a software engineer, but becoming someone who, when a
+repetitive task shows up, thinks "I could script this" and can actually get
+it done. Three parts:
+- **Real annoyances outside this repo are the best practice ground** —
+  specifically, recurring tasks from my finance day job (a copy-paste
+  report, a weekly email with the same structure, files renamed by hand).
+  If I bring one of these to a session, even one totally unrelated to
+  set-game, treat it as squarely on-goal: help me automate it with a small
+  script, and explain *why* it's structured the way it is as we go — don't
+  wave it off as out of scope just because it's not this project.
+- **Learn one no-code tool well** — Zapier or Make (formerly Integromat),
+  the standard trigger -> action tools non-engineers actually use daily at
+  startups. Worth walking through conceptually (and hands-on, if the
+  opportunity comes up) since it's the same event-driven mental model as
+  backend systems, just without code.
+- **A planned exercise tied to Set itself, once deployment is live:**
+  automate something small about the deployed game — e.g. a script that
+  emails a daily stats summary, or a Zapier/webhook integration that posts
+  to Slack whenever someone finishes a game. Small, but it's the exact
+  shape of the "internal tooling" startups run on constantly. Bring this up
+  as a concrete next step once Phase 3 (deployment) is done.
+
 ## Status
 - Phase 0 (Git/GitHub/VS Code setup): done
 - Phase 1 (game logic in Python): in progress
@@ -182,6 +206,8 @@ deployment/CI-CD. Full roadmap logic lives in this repo as we build it.
     down after inactivity, so the in-memory `games` dict will lose all
     in-progress games on that cold start — a live, concrete case of the
     RAM-vs-database limitation already discussed, not a bug.
+- Phase 4 (planned, after deployment): an automation exercise tied to the
+  live game — see "Automation & lightweight tooling" above.
 
 ## Concepts covered (deep dives)
 Running log so future sessions build on these instead of re-explaining from
