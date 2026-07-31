@@ -11,6 +11,14 @@ class Card:
     def __repr__(self):
         return f"Card({self.number}, {self.color}, {self.shape}, {self.shading})"
 
+    def to_dict(self):
+        return {
+            "number": self.number,
+            "color": self.color,
+            "shape": self.shape,
+            "shading": self.shading,
+        }
+
 
 def generate_deck():
     numbers = [1, 2, 3]

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Set</title>
+<style>
+  body { font-family: sans-serif; background: #f5f5f5; text-align: center; padding: 20px; }
+  #message { min-height: 24px; font-weight: bold; margin: 10px; }
+  #hand { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; max-width: 700px; margin: 0 auto; }
+  .card {
+    background: white; border: 2px solid #ccc; border-radius: 8px; padding: 14px 6px;
+    cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px;
+  }
+  .card.selected { border-color: #333; box-shadow: 0 0 0 2px #333; }
+  button { margin-top: 16px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
+</style>
+</head>
+<body>
+<h1>Set</h1>
+<div id="message">Click 3 cards that form a valid set.</div>
+<div id="hand"></div>
+<button id="new-game-btn">New Game</button>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <pattern id="stripe-red" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="6" height="6" fill="white"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="red" stroke-width="3"/>
+    </pattern>
+    <pattern id="stripe-green" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="6" height="6" fill="white"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="green" stroke-width="3"/>
+    </pattern>
+    <pattern id="stripe-purple" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="6" height="6" fill="white"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="purple" stroke-width="3"/>
+    </pattern>
+  </defs>
+</svg>
+
+<script>
+let hand = [];
+let selected = [];
+
+function shapeSvg(shape, color, shading) {
+  const fill = shading === "solid" ? color : (shading === "striped" ? `url(#stripe-${color})` : "white");
+  const strokeWidth = 3;
+  if (shape === "oval") {
+    return `<ellipse cx="30" cy="16" rx="26" ry="13" fill="${fill}" stroke="${color}" stroke-width="${strokeWidth}"/>`;
+  }
+  if (shape === "diamond") {
+    return `<polygon points="30,2 58,16 30,30 2,16" fill="${fill}" stroke="${color}" stroke-width="${strokeWidth}"/>`;
+  }
+  return `<path d="M4,18 C8,4 22,2 28,10 C36,20 46,4 56,12 C54,26 42,30 32,22 C22,14 10,30 4,18 Z" fill="${fill}" stroke="${color}" stroke-width="${strokeWidth}"/>`;
+}
+
+function cardSvg(card) {
+  let icons = "";
+  for (let i = 0; i < card.number; i++) {
+    icons += `<svg width="60" height="32" viewBox="0 0 60 32">${shapeSvg(card.shape, card.color, card.shading)}</svg>`;
+  }
+  return icons;
+}
+
+function renderHand() {
+  const container = document.getElementById("hand");
+  container.innerHTML = "";
+  hand.forEach((card, i) => {
+    const div = document.createElement("div");
+    div.className = "card" + (selected.includes(i) ? " selected" : "");
+    div.innerHTML = cardSvg(card);
+    div.addEventListener("click", () => toggleCard(i));
+    container.appendChild(div);
+  });
+}
+
+function setMessage(text) {
+  document.getElementById("message").textContent = text;
+}
+
+function toggleCard(i) {
+  if (selected.includes(i)) {
+    selected = selected.filter((x) => x !== i);
+  } else if (selected.length < 3) {
+    selected.push(i);
+  }
+  renderHand();
+  if (selected.length === 3) {
+    submitGuess();
+  }
+}
+
+async function submitGuess() {
+  const res = await fetch("/api/guess", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ indices: selected }),
+  });
+  const data = await res.json();
+  selected = [];
+
+  if (data.valid) {
+    setMessage("Correct! Nice find.");
+  } else {
+    setMessage("Not a valid set — try again.");
+  }
+
+  hand = data.hand;
+  renderHand();
+
+  if (data.game_over) {
+    setMessage("No sets left and the deck is empty. Game over!");
+  }
+}
+
+async function newGame() {
+  const res = await fetch("/api/new-game", { method: "POST" });
+  const data = await res.json();
+  hand = data.hand;
+  selected = [];
+  setMessage("Click 3 cards that form a valid set.");
+  renderHand();
+}
+
+document.getElementById("new-game-btn").addEventListener("click", newGame);
+newGame();
+</script>
+</body>
+</html>

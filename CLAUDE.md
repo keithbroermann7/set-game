@@ -126,9 +126,29 @@ deployment/CI-CD. Full roadmap logic lives in this repo as we build it.
     (test_cards.py, test_game.py — 8 tests, all passing) + `conftest.py` at
     repo root (empty; makes top-level modules importable from tests/). Run
     with `venv/bin/pytest -v` (or `source venv/bin/activate && pytest -v`).
-  - Next: not yet decided — could be Phase 1 polish (e.g. the "no sets,
-    deal 3 more" rule above, or a hint/reveal command), or moving into
-    Phase 2 (frontend/backend) per the roadmap in Project goal.
+  - Phase 1 complete.
+- Phase 2 (frontend + backend API): in progress
+  - `server.py`: Flask backend. POST /api/new-game deals a hand and starts a
+    session (signed cookie holding a game_id; actual deck/hand state lives
+    server-side in an in-memory `games` dict keyed by that id). POST
+    /api/guess validates 3 chosen indices with is_valid_set(), replaces
+    correct guesses via deal_hand(), returns updated hand as JSON.
+  - `cards.py`: added Card.to_dict() to serialize a card to JSON.
+  - `frontend/index.html`: static single-file frontend (HTML/CSS/JS, no
+    build step). Renders 12 cards as SVG (shape/color/shading/number drawn
+    to spec), click 3 to guess, calls the API via fetch, re-renders on
+    response. Verified end-to-end in-browser.
+  - Known simplifications (real team wouldn't ship these): `secret_key` is
+    randomly regenerated on every server restart, silently invalidating all
+    active sessions; `games` dict is in-memory only — a restart wipes every
+    in-progress game (a database/session-store would fix both, later
+    roadmap phase); card `<div>`s aren't real `<button>`s, so they're not
+    keyboard- or screen-reader-accessible.
+  - To run locally: `venv/bin/python3 server.py`, then visit
+    http://127.0.0.1:5000/
+  - Next: not yet decided — could be Phase 2 polish (accessibility fix
+    above, the "no sets, deal 3 more" rule, visual polish), or moving into
+    later roadmap phases (database, deployment/CI-CD).
 
 ## Concepts covered (deep dives)
 Running log so future sessions build on these instead of re-explaining from
